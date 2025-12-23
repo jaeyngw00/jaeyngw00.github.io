@@ -1,12 +1,361 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025 Delivery Playlist by Woo Jaeyoung</title>
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            /* 1. 로고 이미지 주소 */
+            --logo-url: url('https://i.postimg.cc/FRwFs3Vf/Title.png');
+            --case-size: 340px; 
+            --lp-size: 320px;   
+            --main-bg: #050505;
+            --receipt-font: 'Courier New', Courier, monospace;
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --case-size: 260px;
+                --lp-size: 245px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --case-size: 210px;
+                --lp-size: 195px;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard Variable", sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--main-bg); color: #fff; overflow: hidden; height: 100vh; width: 100%; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #000; }
+
+        /* 스플래시 */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; justify-content: center; align-items: center;
+            z-index: 10000; transition: opacity 0.8s ease;
+        }
+        .splash-logo { width: 90%; max-width: 1200px; height: 400px; background: var(--logo-url) no-repeat center; background-size: contain; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* 메인 페이지 */
+        #main-page { height: 100vh; display: flex; flex-direction: column; opacity: 0; transition: opacity 1s; position: relative; }
+        .search-container { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center; width: 90%; }
+        .search-bar { background: none; border: none; border-bottom: 2px solid #fff; color: #fff; padding: 10px 0; width: 300px; font-size: 1.1rem; outline: none; text-align: center; transition: 0.3s; }
+        .search-bar:focus { width: 450px; }
+        #search-results { position: absolute; top: 55px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.95); color: #000; display: none; max-height: 300px; overflow-y: auto; z-index: 1001; border-radius: 4px; }
+        .result-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #eee; text-align: center; font-weight: 700; }
+
+        /* LP 트랙 */
+        .archive-section { flex: 1; display: flex; justify-content: center; align-items: center; perspective: 2000px; margin-top: 80px; overflow: hidden; }
+        .track { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; transform-style: preserve-3d; }
+        .lp-wrapper { position: absolute; width: var(--case-size); height: var(--case-size); transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        .album-case { position: relative; width: var(--case-size); height: var(--case-size); background-size: cover; background-position: center; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.6); cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        .lp-disk { position: absolute; bottom: 0; width: var(--lp-size); height: var(--lp-size); background: radial-gradient(circle, #222 0%, #050505 100%); border-radius: 50%; z-index: 5; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform: translateY(20%); display: flex; justify-content: center; align-items: center; }
+        .lp-disk::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; background: repeating-radial-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0.1) 1px, rgba(255,255,255,0.03) 2px, rgba(0,0,0,0.1) 3px); }
+        .lp-label { width: 38%; height: 38%; border-radius: 50%; overflow: hidden; position: relative; z-index: 6; border: 2px solid #111; }
+        .lp-label img { width: 100%; height: 100%; object-fit: cover; }
+        .lp-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: var(--main-bg); border-radius: 50%; z-index: 7; }
+        .lp-wrapper.active .lp-disk { transform: translateY(-65%); }
+
+        /* 영수증 */
+        #detail-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; z-index: 2000; overflow-y: scroll; padding-top: 60px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
+        #detail-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(80px) brightness(40%); z-index: -1; }
+        .detail-header-logo { position: fixed; top: 20px; left: 20px; width: 100px; height: 35px; background: var(--logo-url) no-repeat left center; background-size: contain; z-index: 2001; }
+        #outside-name { font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 700; color: #fff; margin-bottom: 30px; text-align: center; opacity: 0; padding: 0 15px; }
+        .receipt-card { 
+            background: #fdfdfd; color: black; width: 90%; max-width: 650px; padding: 60px 30px; position: relative; transform: translateY(100vh);
+            clip-path: polygon(0% 1%, 1.25% 0%, 2.5% 1%, 3.75% 0%, 5% 1%, 6.25% 0%, 7.5% 1%, 8.75% 0%, 10% 1%, 11.25% 0%, 12.5% 1%, 13.75% 0%, 15% 1%, 16.25% 0%, 17.5% 1%, 18.75% 0%, 20% 1%, 21.25% 0%, 22.5% 1%, 23.75% 0%, 25% 1%, 26.25% 0%, 27.5% 1%, 28.75% 0%, 30% 1%, 31.25% 0%, 32.5% 1%, 33.75% 0%, 35% 1%, 36.25% 0%, 37.5% 1%, 38.75% 0%, 40% 1%, 41.25% 0%, 42.5% 1%, 43.75% 0%, 45% 1%, 46.25% 0%, 47.5% 1%, 48.75% 0%, 50% 1%, 51.25% 0%, 52.5% 1%, 53.75% 0%, 54.5% 1%, 56.25% 0%, 57.5% 1%, 58.75% 0%, 60% 1%, 61.25% 0%, 62.5% 1%, 63.75% 0%, 65% 1%, 66.25% 0%, 67.5% 1%, 68.75% 0%, 70% 1%, 71.25% 0%, 72.5% 1%, 73.75% 0%, 74.5% 1%, 75% 0%, 76.25% 1%, 77.5% 0%, 78.75% 1%, 79% 0%, 80% 1%, 81.25% 0%, 82.5% 1%, 83.75% 0%, 85% 1%, 86.25% 0%, 87.5% 1%, 88.75% 0%, 90% 1%, 91.25% 0%, 92.5% 1%, 93.75% 0%, 94.5% 1%, 96.25% 0%, 97.5% 1%, 98.75% 0%, 100% 1%, 100% 99%, 98.75% 100%, 97.5% 99%, 96.25% 100%, 94.5% 99%, 93.75% 100%, 92.5% 99%, 91.25% 100%, 90% 99%, 88.75% 100%, 87.5% 99%, 86.25% 100%, 85% 99%, 83.75% 100%, 82.5% 99%, 81.25% 100%, 80% 99%, 78.75% 100%, 77.5% 99%, 76.25% 100%, 75% 99%, 73.75% 100%, 72.5% 99%, 71.25% 100%, 70% 99%, 68.75% 100%, 67.5% 99%, 66.25% 100%, 65% 99%, 63.75% 100%, 62.5% 99%, 61.25% 100%, 60% 99%, 58.75% 100%, 57.5% 99%, 56.25% 100%, 54.5% 99%, 53.75% 100%, 52.5% 99%, 51.25% 100%, 50% 99%, 48.75% 100%, 47.5% 99%, 46.25% 100%, 45% 99%, 43.75% 100%, 42.5% 99%, 41.25% 100%, 40% 99%, 38.75% 100%, 37.5% 99%, 36.25% 100%, 35% 99%, 33.75% 100%, 32.5% 99%, 31.25% 100%, 30% 99%, 28.75% 100%, 27.5% 99%, 26.25% 100%, 25% 99%, 23.75% 100%, 22.5% 99%, 21.25% 100%, 20% 99%, 18.75% 100%, 17.5% 99%, 16.25% 100%, 15% 99%, 13.75% 100%, 12.5% 99%, 11.25% 100%, 10% 99%, 8.75% 100%, 7.5% 99%, 6.25% 100%, 5% 99%, 3.75% 100%, 2.5% 99%, 1.25% 100%, 0% 99%);
+        }
+
+        .receipt-card * { font-family: var(--receipt-font); font-weight: 700; letter-spacing: -0.5px; }
+        .profile-img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 30px; filter: grayscale(0.2); }
+        .basic-info { text-align: center; margin-bottom: 50px; border-bottom: 1px dashed #444; padding-bottom: 30px; }
+        .basic-info p { font-size: 1.05rem; margin: 5px 0; color: #111; word-break: break-all; }
+        .playlist-title { font-weight: 800; font-size: 1.25rem; margin-bottom: 40px; text-decoration: underline; text-align: center; }
+        .song-item { margin-bottom: 45px; display: flex; align-items: flex-start; gap: 20px; }
+        .album-art { width: 75px; height: 75px; background: #eee; object-fit: cover; flex-shrink: 0; }
+        .song-content { flex: 1; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+        .song-order-label { font-size: 0.8rem; color: #666; margin-bottom: 2px; }
+        .song-title-row { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem; flex-wrap: wrap; }
+        .spotify-icon { width: 18px; height: 18px; flex-shrink: 0; }
+        .song-desc { font-family: "Pretendard Variable", sans-serif; font-weight: 400; font-size: 0.95rem; color: #444; line-height: 1.6; margin-top: 4px; word-break: keep-all; }
+        .barcode-section { margin-top: 50px; padding-top: 30px; border-top: 1px dashed #444; text-align: center; }
+        .barcode-lines { display: flex; justify-content: center; align-items: flex-end; height: 40px; gap: 1.5px; margin-bottom: 10px; }
+        .barcode-line { background: black; width: 1.8px; height: 100%; }
+        .barcode-text { font-size: 1rem; font-weight: 800; letter-spacing: 5px; }
+        .back-btn { display: block; margin: 60px auto 0; cursor: pointer; border: 1px solid #000; padding: 12px 45px; background: none; font-weight: 800; font-size: 0.95rem; }
+
+        /* 애니메이션 */
+        #detail-page.active #outside-name { animation: fadeIn 0.5s forwards 0.5s; }
+        #detail-page.active .receipt-card { animation: glitchSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .receipt-card.tearing { animation: tearAndFlyUpRight 1.2s cubic-bezier(0.45, 0, 0.55, 1) forwards; }
+        @keyframes tearAndFlyUpRight { 0% { transform: translateY(0) rotate(0); clip-path: polygon(0% 1%, 100% 1%, 100% 100%, 0% 100%); } 10% { transform: translateY(-10px) rotate(1deg); } 100% { transform: translate(120vw, -150vh) rotate(45deg); opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes glitchSlideUp { 0% { transform: translateY(100vh) translateX(0); } 25% { transform: translateY(70vh) translateX(-6px); } 50% { transform: translateY(40vh) translateX(6px); } 75% { transform: translateY(10vh) translateX(-3px); } 100% { transform: translateY(0) translateX(0); } }
+    </style>
 </head>
 <body>
-  <p>Hello, World!</p>
+
+    <div id="splash-screen"><div class="splash-logo"></div></div>
+
+    <div id="detail-page">
+        <div id="detail-bg"></div>
+        <div class="detail-header-logo"></div>
+        <h1 id="outside-name">USER NAME</h1>
+        <div class="receipt-card" id="receiptCard">
+            <img id="det-profile" class="profile-img" src="" alt="profile">
+            <div class="basic-info">
+                <p id="det-name-sub"></p><p id="det-age"></p><p id="det-job"></p><p id="det-insta"></p>
+            </div>
+            <div id="playlist-container">
+                <h3 class="playlist-title" id="det-playlist-title">Playlist</h3>
+            </div>
+            <div class="barcode-section">
+                <div class="barcode-lines" id="barcodeLines"></div>
+                <div class="barcode-text">20251231P</div>
+            </div>
+            <button class="back-btn" onclick="tearReceipt()">CLOSE</button>
+        </div>
+    </div>
+
+    <main id="main-page">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="이름을 검색하세요" autocomplete="off">
+            <div id="search-results"></div>
+        </div>
+        <section class="archive-section"><div class="track" id="lpTrack"></div></section>
+    </main>
+
+    <script>
+        /* ---------------------------------------------------------
+           [💿 데이터 수정 및 추가 영역]
+           - 중괄호 { ... } 하나가 LP 한 장의 정보입니다.
+           - 개수 제한 없이 아래 리스트에 추가하면 무한 루프로 돌아갑니다.
+           - 모든 이미지 주소는 웹 링크(https://...)여야 합니다.
+        --------------------------------------------------------- */
+        let lpData = [
+            { 
+                name: "Woo Jaeyoung", 
+                tag: "우재영", 
+                age: 26, 
+                job: "취준생", 
+                insta: "@jaeyngwoo", 
+                img: "https://i.postimg.cc/rwd2Yv9V/IMG-7600.jpg", 
+                playlist: [
+                    { title: "Post Malone &lt;Money Made Me Do It&gt;", desc: "이 노래를 들으면 취업하고 싶은 마음이 더 불타오릅니다. 물론 노래가 끝나면 공허해지지만요.", songImg: "https://i.namu.wiki/i/OHwr2VK8CGUdQlcU1hSF4w7ekzKvEZXKZSE06uJtpO7dhbxbpQ1ueLKgdK0hVFns-kWx2DLDjofpCWy-Y6aqQw.webp", link: "https://open.spotify.com/track/1ysAvOdJgUjc6CqOQxepaz?si=d5540549904d4b11" },
+                    { title: "Blur &lt;London Loves&gt;", desc: "올해 초 런던을 다녀오면서 더 사랑하게 된 곡입니다. 나레이션의 영국 발음을 들으면 다시 돌아간 느낌! 그리고 이 앨범의 CD나 바이닐 발견 시 연락 부탁드립니다.", songImg: "https://upload.wikimedia.org/wikipedia/en/7/7d/BlurParklife.jpg", link: "https://open.spotify.com/track/78tsvl0m7A0F9UjEwv3POL?si=53e718a1512944d5" },
+                    { title: "Mk.gee &lt;Are You Looking Up&gt;", desc: "도입부가 너무 좋아요. 마치 앨범 커버처럼 숲에 있는 느낌이랄까. 아무튼 Mk.gee 노래 꼭 들어보세요.", songImg: "https://i.namu.wiki/i/QsjcBCehDsxovhcxfmh-lWEKjSmOR87tfOsQgztzfyR98sH1JMTDZ5VYPHLibQNUr05SiE-YBfSkMCCCjJMqmQ.webp", link: "https://open.spotify.com/track/1sWYVBg7ix2WAq43J9nY7E?si=31cefd1b1ea94440" }
+                ] 
+            },
+            { 
+                name: "Kang Da In", 
+                tag: "강다인", 
+                age: 26, 
+                job: "직장인", 
+                insta: "none", 
+                img: "https://i.postimg.cc/DzNN4gJ6/IMG-3939-gangdain.jpg", 
+                playlist: [
+                    { title: "SZA &lt;Nobody Gets Me&gt;", desc: "SZA의 알앤비 스타일을 잘 드러내면서 가사가 맘에 들어 자주 들었습니다.", songImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8XsaFYFdJItrERxbpwbL-tjeu7bw__l3zfg&s", link: "https://open.spotify.com/track/5Y35SjAfXjjG0sFQ3KOxmm?si=e5d66035a4704f86" },
+                    { title: "JENNIE &lt;twin&gt;", desc: "과거 절친한 친구와 멀어진 그리움을 잘 담아내며 나의 옛친구를 떠올리게 한 노래입니다.", songImg: "https://image.bugsm.co.kr/album/images/500/41159/4115971.jpg", link: "https://open.spotify.com/track/5rP5Mwcx5IYavwVTCmdVIK?si=d0e18abc4bce4e06" },
+                    { title: "Oasis &lt;Live Forever&gt;", desc: "살아내고 싶은 의지가 느껴져 벅찬 감정이 듭니다.", songImg: "https://image.bugsm.co.kr/album/images/500/251/25100.jpg", link: "#" }
+                ] 
+            },
+            { 
+                name: "Kinder joy", 
+                tag: "곽민지", 
+                age: 26, 
+                job: "의류 디자이너", 
+                insta: "none", 
+                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                playlist: [
+                    { title: "박준하 &lt;The Town&gt;", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
+                    { title: "BOBBY &lt;RaiNinG&gt;", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
+                    { title: "등려군 &lt;첨밀밀&gt;", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                ] 
+            },
+            { 
+                name: "Eom Su Hyeon", 
+                tag: "엄수현", 
+                age: 26, 
+                job: "방송업계 종사자", 
+                insta: "none", 
+                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                playlist: [
+                    { title: "도영 &lt;안녕, 우주&gt;", desc: " ’첫사랑의 침공’ 이라는 책은 sf 단편 소설로 이루어져 있어 도영 2집 노래들과 잘 어울려 이 책을 읽을 당시 자주 들었다", songImg: "https://image.bugsm.co.kr/album/images/500/41200/4120065.jpg", link: "#" },
+                    { title: "오월오일 &lt;Cherry Roman Candle&gt;", desc: "몰랐던 아티스트였는데 우연히 페스티벌에서 듣고 반해서 찾아본 노래였다 드라이브할 때도 잘 어울려서 자주 들었던 노래!", songImg: "https://image.bugsm.co.kr/album/images/500/207045/20704546.jpg", link: "#" },
+                    { title: "WOODZ &lt;파랗게&gt;", desc: "출장이나 촬영장 다니면서 동기 차에 많이 들은 노래 그때 여름이었기도 해서 잘 어울려서 자주 들었던 기억이 난다.", songImg: "https://image.bugsm.co.kr/album/images/500/203344/20334426.jpg", link: "#" }
+                ] 
+            },
+            { 
+                name: "Park Jung Hoon", 
+                tag: "박정훈", 
+                age: 26, 
+                job: "취뽀 후 마지막 발악 중",
+                insta: "none", 
+                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                playlist: [
+                    { title: "박준하 <The Town>", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
+                    { title: "BOBBY<RaiNinG>", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
+                    { title: "등려군<첨밀밀>", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                ] 
+            },
+            { 
+                name: "Beak Jin Ha", 
+                tag: "백진하", 
+                age: 26, 
+                job: "졸업예정자",
+                insta: "none", 
+                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                playlist: [
+                    { title: "박준하 <The Town>", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
+                    { title: "BOBBY<RaiNinG>", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
+                    { title: "등려군<첨밀밀>", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                ] 
+            },
+            /* ➕ 여기에 새로운 데이터를 복사해서 붙여넣으세요 */
+        ];
+
+        /* --- [시스템 핵심 로직: 디자인/기능 절대 변하지 않음] --- */
+        let currentIndex = 0;
+        const track = document.getElementById('lpTrack');
+        const orderLabels = ["1st Song", "2nd Song", "3rd Song"];
+
+        function shuffleData(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function init() {
+            lpData = shuffleData(lpData);
+            track.innerHTML = '';
+            lpData.forEach((data, i) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'lp-wrapper';
+                wrapper.innerHTML = `<div class="lp-disk"><div class="lp-label"><img src="${data.img}"></div><div class="lp-hole"></div></div><div class="album-case" style="background-image: url('${data.img}')" onclick="openDetail(${i})"></div>`;
+                track.appendChild(wrapper);
+            });
+            update();
+        }
+
+        function update() {
+            const wrappers = document.querySelectorAll('.lp-wrapper');
+            const total = lpData.length;
+            const isMobile = window.innerWidth <= 768;
+            wrappers.forEach((el, i) => {
+                let diff = i - currentIndex;
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+                const absDiff = Math.abs(diff);
+                const spacing = isMobile ? (window.innerWidth * 0.55) : 350;
+                const curveY = isMobile ? 30 : 50;
+                el.style.transform = `translateX(${diff * spacing}px) translateY(${Math.pow(absDiff, 2) * curveY}px) scale(${1 - absDiff * 0.15})`;
+                el.style.zIndex = 100 - Math.round(absDiff * 10);
+                el.style.opacity = 1 - (absDiff * 0.4);
+                if (absDiff < 0.5) el.classList.add('active'); else el.classList.remove('active');
+            });
+        }
+
+        window.addEventListener('wheel', (e) => {
+            if (document.getElementById('detail-page').style.display === 'flex') return;
+            if (e.deltaY > 0) currentIndex = (currentIndex + 1) % lpData.length;
+            else currentIndex = (currentIndex - 1 + lpData.length) % lpData.length;
+            update();
+        }, { passive: true });
+
+        let touchStartX = 0;
+        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX, {passive: true});
+        window.addEventListener('touchend', e => {
+            if (document.getElementById('detail-page').style.display === 'flex') return;
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) currentIndex = (currentIndex + 1) % lpData.length;
+                else currentIndex = (currentIndex - 1 + lpData.length) % lpData.length;
+                update();
+            }
+        }, {passive: true});
+
+        function openDetail(index) {
+            const data = lpData[index];
+            const detailPage = document.getElementById('detail-page');
+            const card = document.getElementById('receiptCard');
+            card.classList.remove('tearing');
+            document.getElementById('outside-name').innerText = (data.name + " " + data.tag).toUpperCase();
+            document.getElementById('det-profile').src = data.img;
+            document.getElementById('det-name-sub').innerText = "NAME: " + data.name.toUpperCase();
+            document.getElementById('det-age').innerText = "AGE: " + data.age;
+            document.getElementById('det-job').innerText = "JOB: " + data.job.toUpperCase();
+            document.getElementById('det-insta').innerText = "INSTA: " + data.insta.toUpperCase();
+            document.getElementById('det-playlist-title').innerText = data.name.toUpperCase() + "'S PLAYLIST";
+            document.getElementById('detail-bg').style.backgroundImage = `url(${data.img})`;
+            const container = document.getElementById('playlist-container');
+            container.querySelectorAll('.song-item').forEach(el => el.remove());
+            data.playlist.slice(0, 3).forEach((song, i) => {
+                const songDiv = document.createElement('div');
+                songDiv.className = 'song-item';
+                songDiv.innerHTML = `<img class="album-art" src="${song.songImg}"><div class="song-content"><p class="song-order-label">${orderLabels[i]}</p><div class="song-title-row"><span>${song.title.toUpperCase()}</span><a href="${song.link}" target="_blank"><img class="spotify-icon" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"></a></div><p class="song-desc">${song.desc}</p></div>`;
+                container.appendChild(songDiv);
+            });
+            generateBarcode();
+            detailPage.style.display = 'flex';
+            detailPage.scrollTop = 0;
+            setTimeout(() => detailPage.classList.add('active'), 10);
+        }
+
+        function tearReceipt() {
+            const card = document.getElementById('receiptCard');
+            const detailPage = document.getElementById('detail-page');
+            card.classList.add('tearing');
+            setTimeout(() => { detailPage.classList.remove('active'); setTimeout(() => detailPage.style.display = 'none', 1000); }, 1100);
+        }
+
+        function generateBarcode() {
+            const container = document.getElementById('barcodeLines');
+            container.innerHTML = '';
+            for (let i = 0; i < 40; i++) {
+                const line = document.createElement('div');
+                line.className = 'barcode-line';
+                line.style.width = (Math.random() * 2 + 1) + 'px';
+                line.style.opacity = Math.random() > 0.1 ? '1' : '0';
+                container.appendChild(line);
+            }
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('search-results');
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+            if (!val) { searchResults.style.display = 'none'; return; }
+            const filtered = lpData.filter(d => d.name.toLowerCase().includes(val) || d.tag.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                searchResults.style.display = 'block';
+                filtered.sort((a, b) => a.name.localeCompare(b.name, 'ko')).forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerText = d.name.toUpperCase();
+                    div.onclick = () => { searchInput.value = ''; searchResults.style.display = 'none'; openDetail(lpData.indexOf(d)); };
+                    searchResults.appendChild(div);
+                });
+            } else { searchResults.style.display = 'none'; }
+        });
+
+        window.addEventListener('resize', update);
+        window.onload = () => {
+            init();
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-page').style.opacity = '1';
+            }, 3000);
+        };
+    </script>
 </body>
 </html>
