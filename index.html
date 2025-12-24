@@ -98,6 +98,27 @@
         @keyframes tearAndFlyUpRight { 0% { transform: translateY(0) rotate(0); clip-path: polygon(0% 1%, 100% 1%, 100% 100%, 0% 100%); } 10% { transform: translateY(-10px) rotate(1deg); } 100% { transform: translate(120vw, -150vh) rotate(45deg); opacity: 0; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes glitchSlideUp { 0% { transform: translateY(100vh) translateX(0); } 25% { transform: translateY(70vh) translateX(-6px); } 50% { transform: translateY(40vh) translateX(6px); } 75% { transform: translateY(10vh) translateX(-3px); } 100% { transform: translateY(0) translateX(0); } }
+	/* 참가자 수 스타일 */
+#participant-count {
+    position: absolute;
+    bottom: 30px; /* 바닥에서의 높이 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7); /* 살짝 투명한 화이트 */
+    letter-spacing: 1px;
+    pointer-events: none; /* 마우스 조작 방해 금지 */
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    #participant-count {
+        bottom: 20px;
+        font-size: 0.9rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -130,6 +151,7 @@
             <div id="search-results"></div>
         </div>
         <section class="archive-section"><div class="track" id="lpTrack"></div></section>
+	<div id="participant-count">참가자 수: 0명</div>
     </main>
 
     <script>
@@ -149,8 +171,8 @@
                 img: "https://i.postimg.cc/rwd2Yv9V/IMG-7600.jpg", 
                 playlist: [
                     { title: "Post Malone &lt;Money Made Me Do It&gt;", desc: "이 노래를 들으면 취업하고 싶은 마음이 더 불타오릅니다. 물론 노래가 끝나면 공허해지지만요.", songImg: "https://i.namu.wiki/i/OHwr2VK8CGUdQlcU1hSF4w7ekzKvEZXKZSE06uJtpO7dhbxbpQ1ueLKgdK0hVFns-kWx2DLDjofpCWy-Y6aqQw.webp", link: "https://open.spotify.com/track/1ysAvOdJgUjc6CqOQxepaz?si=d5540549904d4b11" },
-                    { title: "Blur &lt;London Loves&gt;", desc: "올해 초 런던을 다녀오면서 더 사랑하게 된 곡입니다. 나레이션의 영국 발음을 들으면 다시 돌아간 느낌! 그리고 이 앨범의 CD나 바이닐 발견 시 연락 부탁드립니다.", songImg: "https://upload.wikimedia.org/wikipedia/en/7/7d/BlurParklife.jpg", link: "https://open.spotify.com/track/78tsvl0m7A0F9UjEwv3POL?si=53e718a1512944d5" },
-                    { title: "Mk.gee &lt;Are You Looking Up&gt;", desc: "도입부가 너무 좋아요. 마치 앨범 커버처럼 숲에 있는 느낌이랄까. 아무튼 Mk.gee 노래 꼭 들어보세요.", songImg: "https://i.namu.wiki/i/QsjcBCehDsxovhcxfmh-lWEKjSmOR87tfOsQgztzfyR98sH1JMTDZ5VYPHLibQNUr05SiE-YBfSkMCCCjJMqmQ.webp", link: "https://open.spotify.com/track/1sWYVBg7ix2WAq43J9nY7E?si=31cefd1b1ea94440" }
+                    { title: "Blur &lt;London Loves&gt;", desc: "올해 초 런던을 다녀오면서 더 사랑하게 된 곡입니다. 런던은 꼭 가보세요! 파리도 추천합니다. 그리고 이 앨범의 CD나 바이닐 발견 시 연락 부탁드립니다.", songImg: "https://upload.wikimedia.org/wikipedia/en/7/7d/BlurParklife.jpg", link: "https://open.spotify.com/track/78tsvl0m7A0F9UjEwv3POL?si=53e718a1512944d5" },
+                    { title: "Mk.gee &lt;Are You Looking Up&gt;", desc: "도입부가 너무 좋아요.앨범 커버처럼 숲에 있는 느낌이랄까. 아무튼 Mk.gee 노래 꼭 들어보세요.", songImg: "https://i.namu.wiki/i/QsjcBCehDsxovhcxfmh-lWEKjSmOR87tfOsQgztzfyR98sH1JMTDZ5VYPHLibQNUr05SiE-YBfSkMCCCjJMqmQ.webp", link: "https://open.spotify.com/track/1sWYVBg7ix2WAq43J9nY7E?si=31cefd1b1ea94440" }
                 ] 
             },
             { 
@@ -162,8 +184,8 @@
                 img: "https://i.postimg.cc/DzNN4gJ6/IMG-3939-gangdain.jpg", 
                 playlist: [
                     { title: "SZA &lt;Nobody Gets Me&gt;", desc: "SZA의 알앤비 스타일을 잘 드러내면서 가사가 맘에 들어 자주 들었습니다.", songImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8XsaFYFdJItrERxbpwbL-tjeu7bw__l3zfg&s", link: "https://open.spotify.com/track/5Y35SjAfXjjG0sFQ3KOxmm?si=e5d66035a4704f86" },
-                    { title: "JENNIE &lt;twin&gt;", desc: "과거 절친한 친구와 멀어진 그리움을 잘 담아내며 나의 옛친구를 떠올리게 한 노래입니다.", songImg: "https://image.bugsm.co.kr/album/images/500/41159/4115971.jpg", link: "https://open.spotify.com/track/5rP5Mwcx5IYavwVTCmdVIK?si=d0e18abc4bce4e06" },
-                    { title: "Oasis &lt;Live Forever&gt;", desc: "살아내고 싶은 의지가 느껴져 벅찬 감정이 듭니다.", songImg: "https://image.bugsm.co.kr/album/images/500/251/25100.jpg", link: "#" }
+                    { title: "JENNIE &lt;twin&gt;", desc: " 과거 절친한 친구와 멀어진 그리움을 잘 담아내며 나의 옛친구를 떠올리게 한 노래입니다.", songImg: "https://image.bugsm.co.kr/album/images/500/41159/4115971.jpg", link: "https://open.spotify.com/track/5rP5Mwcx5IYavwVTCmdVIK?si=d0e18abc4bce4e06" },
+                    { title: "Oasis &lt;Live Forever&gt;", desc: "점점 고조되는 노래 진행이 마음에 들고, 살아내고 싶은 격정적 의지가 느껴진달까요.. 들으면서 벅찬 감정이 들었습니다.", songImg: "https://image.bugsm.co.kr/album/images/500/251/25100.jpg", link: "#" }
                 ] 
             },
             { 
@@ -174,9 +196,9 @@
                 insta: "none", 
                 img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
                 playlist: [
-                    { title: "박준하 &lt;The Town&gt;", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
-                    { title: "BOBBY &lt;RaiNinG&gt;", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
-                    { title: "등려군 &lt;첨밀밀&gt;", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                    { title: "박준하 &lt;The Town&gt;", desc: "2024년에 재밌게 본 드라마 Mr. 플랑크톤의 OST예요. OST에서 시작해서 아직까지도 자주 듣는 노래예요. 그냥 처음부터 좋다고 생각이 들었고! 가사도 마음에 들었어요. 요맘때 살짝 싱숭생숭했습니다.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "https://open.spotify.com/track/6sb4JIKZdThTHiZo3M1c8i?si=753cc496e59d40cc" },
+                    { title: "BOBBY &lt;RaiNinG&gt;", desc: "비 오는 날 누가 에픽하이 우산만 듣죠? 전 이것만 들어요. 둘의 조합을 좋아하는데 꼭 깊은 밤을 싱글로 듣는 날까지 자주 들어줄랍니다~", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "https://open.spotify.com/track/5BmhJNAVzCVmQH4aiQCYqN?si=c2e78a0dde3947be" },
+                    { title: "등려군 &lt;첨밀밀&gt;", desc: "대만 도착해서 첫 일정, 도로를 달리면서 음질 안 좋은 스피커로 들었는데 오히려 빈티지한 느낌이 나서 좋았어요. 첨밀밀만 들으면 여행에 대한 좋았던 기억이 떠올라 월량대표아적심까지 세트로 같이 들어주면 여기가 대만.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
                 ] 
             },
             { 
@@ -185,7 +207,7 @@
                 age: 26, 
                 job: "방송업계 종사자", 
                 insta: "none", 
-                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                img: "https://i.postimg.cc/QdLY2S1j/IMG_9280_su_hyun.jpg", 
                 playlist: [
                     { title: "도영 &lt;안녕, 우주&gt;", desc: " ’첫사랑의 침공’ 이라는 책은 sf 단편 소설로 이루어져 있어 도영 2집 노래들과 잘 어울려 이 책을 읽을 당시 자주 들었다", songImg: "https://image.bugsm.co.kr/album/images/500/41200/4120065.jpg", link: "#" },
                     { title: "오월오일 &lt;Cherry Roman Candle&gt;", desc: "몰랐던 아티스트였는데 우연히 페스티벌에서 듣고 반해서 찾아본 노래였다 드라이브할 때도 잘 어울려서 자주 들었던 노래!", songImg: "https://image.bugsm.co.kr/album/images/500/207045/20704546.jpg", link: "#" },
@@ -196,28 +218,121 @@
                 name: "Park Jung Hoon", 
                 tag: "박정훈", 
                 age: 26, 
-                job: "취뽀 후 마지막 발악 중",
+                job: "백수",
                 insta: "none", 
                 img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
                 playlist: [
-                    { title: "박준하 <The Town>", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
-                    { title: "BOBBY<RaiNinG>", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
-                    { title: "등려군<첨밀밀>", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
                 ] 
             },
             { 
-                name: "Beak Jin Ha", 
+                name: "Baek Jin Ha", 
                 tag: "백진하", 
                 age: 26, 
-                job: "졸업예정자",
-                insta: "none", 
-                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                job: "학생",
+                insta: "@jinapxxk", 
+                img: "https://i.postimg.cc/HnVs16wg/IMG_1234_jinha.jpg", 
                 playlist: [
-                    { title: "박준하 <The Town>", desc: "드라마 OST로 처음 접했는데 가사가 정말 마음에 들어요.", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
-                    { title: "BOBBY<RaiNinG>", desc: "비 오는 날 자주 듣는 최애 조합입니다.", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
-                    { title: "등려군<첨밀밀>", desc: "대만 여행의 추억이 떠오르는 빈티지한 노래입니다.", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                    { title: "DAY6 &lt;반드시 웃는다ㅣSmile&gt;", desc: "올해 새로 차 뽑고 차에서 데이식스 노래를 많이 들었는데 그러다 알게된 노래로 데이식스만의 밴드 분위기에 적당히 따뜻한 느낌. 그냥 멜로디가 좋음.", songImg: "https://image.bugsm.co.kr/album/images/500/201013/20101328.jpg", link: "https://open.spotify.com/track/7tkQWycd9o8c4JVW5BG6p8?si=d7c75710e26d40c6" },
+                    { title: "ALLDAY PROJECT &lt;WICKED&gt;", desc: "올데프는 오랜만에 개성 있는 그룹 하나 나온듯. 과하지 않고 적당히 신나는 비트.", songImg: "https://image.bugsm.co.kr/album/images/500/41214/4121434.jpg", link: "https://open.spotify.com/track/6zRZyfYNsvgl1y6H5mkR1x?si=7ffa1fb20ca443d2" },
+                    { title: "G-DRAGON &lt;HOME SWEET HOME&gt;", desc: "지디는 지디다. 아무리 드라이브 하면서 들어도 전혀 질리지 않는다.", songImg: "https://i.namu.wiki/i/kk8ClE4VszXMztCRqE3vHWW7wxSTVY7PmJgCn4CgijQ3cEg3kgFekomwABopt7_B8laKGJWgBJcBAxaYhHPGOg.webp", link: "https://open.spotify.com/track/04jt3FIji2EJUhun0UrNqR?si=7b33318cd30d4e54" }
                 ] 
             },
+            { 
+                name: "Kwak Do Yeon", 
+                tag: "곽도연", 
+                age: 26, 
+                job: "학생",
+                insta: "@k__dyn", 
+                img: "https://i.postimg.cc/Pf9pSH4G/IMG_9647_Doyeon_Kwak.jpg", 
+                playlist: [
+                    { title: "마크튭 &lt;시작의 아이&gt;", desc: "박다혜라는 유튜브가 부른 버전을 좋아한다. 처음 들었을 때 고음 나오는 부분이 너무 좋아서 감탄했던 기억이 있다.", songImg: "https://i.namu.wiki/i/v8Dqo17bRjf0kGrraJ56HuADvBJxn3uBRANLU3Ze7OLzcfM9Dw0xYt1LYUkDTSKihSfkBRLLgoYa5bI3y5SMAw.webp", link: "https://open.spotify.com/track/2GMKQPMXdOGXsQkDYBN6wF?si=fb1638dbc2a04e20" },
+                    { title: "Ariana Grande &lt;Popular&gt;", desc: "영화 위키드 속 두 주인공이 함께하는 장면이 연상되며 들으면 기분 좋아지는 노래.", songImg: "https://i.scdn.co/image/ab67616d0000b27341ded89391c5350f6b8f991c", link: "https://open.spotify.com/track/3i8fIJNV0yuC4kXT3SkVBZ?si=5ace208a06cd4eb0" },
+                    { title: "이찬혁 &lt;멸종위기사랑&gt;", desc: "타인에 대한 사랑이 부족한 이 시대에 사랑을 전하는 노래. 곡의 내용과 컨셉이 참 좋았다.", songImg: "https://www.akbobada.com/home/akbobada/archive/akbo/img/202507260043033.jpg", link: "https://open.spotify.com/track/06o2o3TpyR8eGU2ANK21Lp?si=91cf515bd64b4051" }
+                ] 
+            },
+            { 
+                name: "Hwang Hwa Yeon", 
+                tag: "황화연", 
+                age: 26, 
+                job: "Signer",
+                insta: "@hwa.rt", 
+                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                playlist: [
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
+                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                ] 
+            },
+            { 
+                name: "Kwon Yeong Kyeong", 
+                tag: "권영경", 
+                age: 25, 
+                job: "인턴",
+                insta: "@d._.budrud", 
+                img: "https://i.postimg.cc/d1rCdtkK/IMG_3391_Y_G.jpg", 
+                playlist: [
+                    { title: "신지훈 &lt;자유비행&gt;", desc: "희노애락을 겪으며 성장하는 순간 불안과 두려움 속에서 방황하지만, 결국 스스로 날아오르려는 마음을 담은 노래예요. 감정의 흔들림 자체가 성장의 과정임을 자유비행에 비유해 표현한 점이 인상 깊어요. 이 노래를 듣고 있으면 혼란스러웠던 마음이 차분해지는 것 같아 즐겨듣는답니다! 생각이 많은 날, 혹은 지치는 날이 있다면, 산책하며 이 노래를 들어보시는 것을 추천합니다!", songImg: "https://image.bugsm.co.kr/album/images/500/41263/4126336.jpg", link: "https://open.spotify.com/track/1874dOZUea5IRomZWKjsxg?si=6295fd9192504067" },
+                    { title: "Scrawny &lt;be ok&gt;", desc: "스스로를 위로하는 순간 완벽하지 않아도 괜찮다고 말하며 자신을 다독이는 가사를 담은 곡이예요. 잔잔한 멜로디와 담담한 가사를 통해 힘든 순간에도 결국 괜찮아질 수 있다는 희망을 전하는 노래입니다. 밤 드라이브할 때 이 노래 들으면 기분이 좋아지더라구요!", songImg: "https://i.scdn.co/image/ab67616d0000b2739c06b2e5891e280cb9d443ae", link: "https://open.spotify.com/track/6iayg21nP4uuEej073XT7x?si=d831058c94764f8a" },
+                    { title: "한로로 &lt;비틀비틀 짝짜꿍&gt;", desc: "고등학교 시절을 함께 보낸 친구가 추천해줘서 알게 된 노래인데, 가사를 곱씹어 들을수록 이 노래가 좋아지더라구요! 이마 위 상처는 청춘의 징표, 우리는 서로의 좋은 반창고라는 가사가 기억에 남네요. 들을수록 매력적인 곡이니 아직 못들어보셨다면 지금 꼭 들어보세요!", songImg: "https://image.bugsm.co.kr/album/images/500/204908/20490847.jpg", link: "https://open.spotify.com/track/2AfW3wIFo6uR2YIPoVewrd?si=ccc5af53b49b4682" }
+                ] 
+            },
+            { 
+                name: "Song Bo Mi", 
+                tag: "송보미", 
+                age: 26, 
+                job: "사자(시각디자이너)",
+                insta: "@mimyslef", 
+                img: "https://i.postimg.cc/zGq1YdSB/4FC3FD25_6406_47B6_8A19_EE832BC4030D.jpg", 
+                playlist: [
+                    { title: "Asap rocky &lt;Fashion killa&gt;", desc: " 느낌이 좋음 꼭 들어보세요", songImg: "https://image.bugsm.co.kr/album/images/500/41263/4126336.jpg", link: "https://open.spotify.com/track/0O3TAouZE4vL9dM5SyxgvH?si=207f3af3ffe6421d" },
+                    { title: "Dominic Fike &lt;mona lisa&gt;", desc: "그냥 느낌이 좋음 꼭 들어보세요", songImg: "https://i.scdn.co/image/ab67616d0000b2735b26c1b56d89c1416d21db60", link: "https://open.spotify.com/track/71DSaeKtXQaMAqnvMT7Uoc?si=668762a1746f4df1" },
+                    { title: "Migos&lt;Stir Fry&gt;", desc: "힙해질 수 있습니다 꼭 들어보세요", songImg: "https://img.buzzfeed.com/buzzfeed-static/static/2018-02/7/18/asset/buzzfeed-prod-fastlane-01/sub-buzz-4859-1518044489-3.png?downsize=700%3A%2A&output-quality=auto&output-format=auto", link: "https://open.spotify.com/track/2UVbBKQOdFAekPTRsnkzcf?si=1d9b9baad7c0474d" }
+                ] 
+            },
+            { 
+                name: "Jeong Yeo Jin", 
+                tag: "정여진", 
+                age: 22, 
+                job: "경대 프로텍터",
+                insta: "@lune__chat", 
+                img: "https://i.postimg.cc/ht0QK3kY/IMG_9280_애옹.jpg", 
+                playlist: [
+                    { title: "ASH ISLAND &lt;OST(Feat.CHANMINA)&gt;", desc: "실제 연인을 담은 가사라 과몰입하기 좋았어요!! 그리고 시간이 지나 결혼식에서 이 노래를 부른게 정말 낭만있었답니다!", songImg: "https://image.bugsm.co.kr/album/images/500/41042/4104287.jpg", link: "https://open.spotify.com/track/5i2qsnB4cF2j7KdxjhTbzV?si=2c0b3da141f14171" },
+                    { title: "우즈 &lt;I'll Never Love Again&gt;", desc: "군복 드라우닝으로 뜨고 전역 후 발매한 첫 노래인데요! 원래 우즈의 노래를 좋아해서 전역까지 정말 기다렸거든요ㅠㅠ 우즈가 말아주는 이별노래 아니면 못 듣겠어요ㅠ", songImg: "https://image.bugsm.co.kr/album/images/500/41289/4128981.jpg", link: "https://open.spotify.com/track/1L00vG2kGAmaAw47GQUNNI?si=80dd4db44a264920" },
+                    { title: "JAEHA &lt;3 2 1&gt;", desc: "유튜브 뮤직 둘러보다가 우연히 알게된 노래인데 적당히 신나고 감미로워서..(?) 좋았어요! 우연히 발견한 내 취향 노래라 더 정이 가고 소중한 느낌입니다!!", songImg: "https://image.bugsm.co.kr/album/images/500/205534/20553401.jpg", link: "https://open.spotify.com/track/4oFRErE7T4787s2K5FWz0W?si=2e17d43417494188" }
+                ] 
+            },
+            { 
+                name: "Park Jin I", 
+                tag: "박진이", 
+                age: 26, 
+                job: "취준생",
+                insta: "@271__i", 
+                img: "https://i.postimg.cc/90g5P9n7/IMG_4505_지니.jpg", 
+                playlist: [
+                    { title: "RIO &lt;New Boots &gt;", desc: "", songImg: "https://image.bugsm.co.kr/album/images/500/203559/20355997.jpg", link: "https://open.spotify.com/track/7fw0MmlUh0KzTeExsX8zC6?si=eef47162905c4052" },
+                    { title: "허성현 &lt;순애&gt;", desc: "", songImg: "https://image.bugsm.co.kr/album/images/500/206462/20646207.jpg", link: "https://open.spotify.com/track/3Zr7XljDMsjanXYIIjZMXp?si=34ff5d5253b1492d" },
+                    { title: "Night Off &lt;그러나 우리가 사랑으로&gt;", desc: "", songImg: "https://image.bugsm.co.kr/album/images/500/205733/20573330.jpg", link: "https://open.spotify.com/track/2pTM8p0pHkt3IKrEwfNAQs?si=b1f0e313e875455d" }
+                ] 
+            },
+            { 
+                name: "Jeong Hye Min", 
+                tag: "정혜민", 
+                age: 23, 
+                job: "대학생!",
+                insta: "@i_cocolooo", 
+                img: "https://i.postimg.cc/kgnYMG1t/IMG_0094_정혜민.jpg", 
+                playlist: [
+                    { title: "Lia Ouyang Rusil  &lt;LOVE (Variation 1)&gt;", desc: "영화 해피앤드 OST인데 이 노래를 들으면 영화 속 주인공이 된 기분이다. 청춘의 불안함과 사랑이 함께 담긴 음악 같아서 좋아한다!", songImg: "https://image.bugsm.co.kr/album/images/500/358241/35824183.jpg", link: "https://open.spotify.com/track/1Iup6yDOBHU0AeANKXf62Q?si=9efde251fb1446df" },
+                    { title: "Michita &lt;Come Here&gt;", desc: "영화 비포선라이즈 삽입곡이자 미치타 Dawning(2009) 앨범 수록곡이다. 이 앨범 전체 다 좋은데 그 중에 이 노래를 선택한 이유는 언젠가 오스트리아 빈에 가게되면 꼭 듣고싶어서 계속 듣는중이기 때문에..", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music/45/4a/e0/mzi.lnijokaw.jpg/600x600bf-60.jpg", link: "https://open.spotify.com/track/26zbtVrH7HQuCPDJ6uZtuk?si=5693eaa8d7454e08" },
+                    { title: "디어 &lt;12월 24일&gt;", desc: "오늘 크리스마스 이브 날짜랑 겹쳐서 넣고싶었다ㅎㅎ", songImg: "https://image.bugsm.co.kr/album/images/500/3554/355489.jpg", link: "https://open.spotify.com/album/1iMniZZNHykXZMXxJcXE9u?si=KfZ7gOuiQ3azvRDOHQmTUQ" }
+                ] 
+            },
+
+
             /* ➕ 여기에 새로운 데이터를 복사해서 붙여넣으세요 */
         ];
 
@@ -242,6 +357,8 @@
                 wrapper.className = 'lp-wrapper';
                 wrapper.innerHTML = `<div class="lp-disk"><div class="lp-label"><img src="${data.img}"></div><div class="lp-hole"></div></div><div class="album-case" style="background-image: url('${data.img}')" onclick="openDetail(${i})"></div>`;
                 track.appendChild(wrapper);
+	// 기존 init() 함수 내부의 마지막 부분에 추가
+document.getElementById('participant-count').innerText = `참가자 수: ${lpData.length}명`;
             });
             update();
         }
