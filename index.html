@@ -178,38 +178,7 @@
 	</style>
 </head>
 <body>
-	<audio id="sound-intro" src="file:///Users/woojaeyoung/Downloads/old-radio-button-click-97549.mp3" preload="auto" loop></audio>
 
-<audio id="sound-open" src="file:///Users/woojaeyoung/Downloads/printer-sound-effect-no-copyright-394246.mp3" preload="auto"></audio>
-
-<audio id="sound-close" src="file:///Users/woojaeyoung/Downloads/tear-paper-103161.mp3" preload="auto"></audio>
----
-
-### 2. JavaScript 부분 (재생 로직 추가)
-
-#### ① 처음 화면이 켜질 때 (배경음/인트로)
-**위치:** `<script>` 태그 내의 `window.onload` 함수 내부 맨 위 혹은 스플래시가 끝나는 시점에 추가하세요.
-*참고: 대부분의 브라우저는 사용자의 클릭 전 자동 재생을 막기 때문에, 스플래시 화면이 끝날 때 재생을 시도하도록 설정했습니다.*
-
-```javascript
-window.onload = () => {
-    init();
-    
-    // 1. 처음 화면 켜질 때 사운드 재생 시도
-    const introSnd = document.getElementById('sound-intro');
-    // 사용자가 페이지를 클릭하는 순간 재생되도록 안전장치 추가
-    document.body.addEventListener('click', () => {
-        introSnd.play();
-    }, { once: true });
-
-    setTimeout(() => {
-        document.getElementById('splash-screen').style.display = 'none';
-        document.getElementById('main-page').style.opacity = '1';
-        introSnd.play().catch(() => { console.log("자동 재생이 차단되었습니다. 클릭이 필요합니다."); });
-    }, 3000);
-};
-
-	
     <div id="splash-screen"><div class="splash-logo"></div></div>
 	<div id="about-btn" onclick="toggleAbout(true)" style="position: fixed; top: 20px; right: 10px; z-index: 1001; cursor: pointer; font-weight: 700; font-size: 0.7rem; border: 1px solid #fff; padding: 3px 9px; letter-spacing: 1px; color: #fff;">ABOUT</div>
 
@@ -333,7 +302,7 @@ window.onload = () => {
                 img: "https://i.postimg.cc/PxZknmnY/Kakao-Talk-Photo-2025-12-26-17-00-36.jpg", 
                 playlist: [
                     { title: "다비치 &lt;둘이서 떠나요&gt;", desc: "다비치 콘서트 보고왔던 기억이 난다. 제목도 마음에 들고, 겨울에 듣기 좋은 노래다! 마음이 편해지는 멜로디", songImg: "https://image.bugsm.co.kr/album/images/500/204681/20468120.jpg", link: "https://open.spotify.com/track/4uCMli0EyhnBbA5NzvaBLZ?si=54b8472bfe424223" },
-                    { title: "CNBLUE &lt;I'm sorry&gt;", desc: "몇 없는 밴드아이돌 노래인데, 특유의 옛날 감성이 좋다. 신나는 멜로디", songImg: "https://image.bugsm.co.kr/album/images/500/3545/354591.jpg", link: "https://open.spotify.com/track/5j6DtDtZ84kXFrfcBMT11S?si=c6c5ccfd8ab947cf" },
+                    { title: "I'm Sorry &lt;CNBLUE&gt;", desc: "몇 없는 밴드아이돌 노래인데, 특유의 옛날 감성이 좋다. 신나는 멜로디", songImg: "https://image.bugsm.co.kr/album/images/500/3545/354591.jpg", link: "https://open.spotify.com/track/5j6DtDtZ84kXFrfcBMT11S?si=c6c5ccfd8ab947cf" },
                     { title: "Michael Jackson &lt;Black or White&gt;", desc: "마이클 잭슨 노래 중 가장 좋아하는 노래다. 옛날 노래지만 녹음 퀄리티가 상당히 좋고, 음분리도가 특히 뛰어나서 꼭 이어폰 끼고 듣길 추천함!", songImg: "https://cdn-images.dzcdn.net/images/cover/93a5354699d552666448e1c87c976605/1900x1900-000000-80-0-0.jpg", link: "https://open.spotify.com/track/7EsjkelQuoUlJXEw7SeVV4?si=e5b26420f1a04f9e" }
                 ] 
             },
@@ -590,9 +559,6 @@ document.getElementById('participant-count').innerText = `참가자 수: ${lpDat
         }, {passive: true});
 
         function openDetail(index) {
-			const openSnd = document.getElementById('sound-open');
-    openSnd.currentTime = 0;
-    openSnd.play();
             const data = lpData[index];
             const detailPage = document.getElementById('detail-page');
             const card = document.getElementById('receiptCard');
@@ -630,9 +596,6 @@ setTimeout(() => {
         }
 
         function tearReceipt() {
-			const closeSnd = document.getElementById('sound-close');
-    closeSnd.currentTime = 0;
-    closeSnd.play();
             const card = document.getElementById('receiptCard');
             const detailPage = document.getElementById('detail-page');
             card.classList.add('tearing');
