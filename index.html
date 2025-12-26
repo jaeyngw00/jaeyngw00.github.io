@@ -169,6 +169,12 @@
         top: 60%;
     }
 }
+#spotify-guide {
+    width: 80%;
+    text-align: center;
+    font-size: 0.75rem;
+    bottom: 20px;
+}
 	</style>
 </head>
 <body>
@@ -195,6 +201,9 @@
 </div>
 
     <div id="detail-page">
+	<div id="spotify-guide" style="display:none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.85rem; z-index: 3000; pointer-events: none; opacity: 0; transition: opacity 0.5s;">
+    Spotify 아이콘을 눌러 노래를 감상하세요!
+</div>
         <div id="detail-bg"></div>
         <div class="detail-header-logo"></div>
         <h1 id="outside-name">USER NAME</h1>
@@ -571,6 +580,16 @@ document.getElementById('participant-count').innerText = `참가자 수: ${lpDat
                 container.appendChild(songDiv);
             });
             generateBarcode();
+/* --- Spotify 안내 문구 실행 로직 --- */
+const spotGuide = document.getElementById('spotify-guide');
+spotGuide.style.display = 'block';
+setTimeout(() => { spotGuide.style.opacity = '1'; }, 100); // 서서히 등장
+
+// 5초 후 사라짐
+setTimeout(() => {
+    spotGuide.style.opacity = '0';
+    setTimeout(() => { spotGuide.style.display = 'none'; }, 500);
+}, 5000);
             detailPage.style.display = 'flex';
             detailPage.scrollTop = 0;
             setTimeout(() => detailPage.classList.add('active'), 10);
@@ -647,6 +666,7 @@ setTimeout(() => {
         setTimeout(() => { guide.remove(); }, 800); // 완전히 제거
     }, 2000);
 }, 4500); // 스플래시가 끝난 뒤 등장하도록 시간 설정
+
     </script>
 </body>
 </html>
