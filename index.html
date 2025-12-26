@@ -99,24 +99,27 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes glitchSlideUp { 0% { transform: translateY(100vh) translateX(0); } 25% { transform: translateY(70vh) translateX(-6px); } 50% { transform: translateY(40vh) translateX(6px); } 75% { transform: translateY(10vh) translateX(-3px); } 100% { transform: translateY(0) translateX(0); } }
 	/* 참가자 수 스타일 */
+/* 참가자 수 스타일 수정 (고정력 강화) */
 #participant-count {
     position: absolute;
-    bottom: 30px; /* 바닥에서의 높이 */
+    bottom: 40px; /* 위치를 조금 더 위로 올려서 키보드에 덜 가리게 함 */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.7); /* 살짝 투명한 화이트 */
+    color: rgba(255, 255, 255, 0.6);
     letter-spacing: 1px;
-    pointer-events: none; /* 마우스 조작 방해 금지 */
+    pointer-events: none;
+    /* 모바일에서 키보드가 올라올 때 위치가 급변하는 걸 방지 */
+    transition: bottom 0.3s ease; 
 }
 
-/* 모바일 대응 */
 @media (max-width: 768px) {
     #participant-count {
-        bottom: 40px;
-        font-size: 0.9rem;
+        /* 키보드가 올라올 때 밀려 올라가지 않도록 bottom 대신 고정 위치 사용 권장 */
+        bottom: 30px; 
+        font-size: 0.75rem;
     }
 }
 	/* 영수증 상세 페이지의 로고 숨기기 */
@@ -139,7 +142,34 @@
         right: 10px;
     }
 }
-    </style>
+	/* 가이드 문구 스타일 */
+#scroll-guide {
+    position: absolute;
+    top: 65%; /* LP판 근처 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 900;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    opacity: 0; /* 초기엔 숨김 */
+    transition: opacity 0.8s ease;
+}
+
+/* 모바일 전용: 글자 크기 축소 */
+@media (max-width: 768px) {
+    #scroll-guide {
+        font-size: 0.75rem;
+        padding: 8px 15px;
+        top: 60%;
+    }
+}
+	</style>
 </head>
 <body>
 
@@ -153,12 +183,8 @@
         <h1 style="font-size: 1.9rem; font-weight: 800; margin-bottom: 30px; letter-spacing: -1px;">2025 Delivery Palylist</h1>
         <p style="font-size: 1.0rem; line-height: 1.3; font-weight: 500;">
             우리의 2025년은 어떤 리듬이었나요?<br><br>
-			지난 12월 23일, 도서관에서 김하나·황선우 작가의 『하와이 딜리버리』를 읽었습니다.<br>
-			부산의 바다를 닮은 두 작가가 매일 2~3곡씩 정성스레 쌓아 올린 1,000곡의 아카이브를 보며 문득 궁금해졌어요. <br>
-			여러분의 한 해는 어떤 음악들로 채워져 있었는지 말이죠.<br><br>
-			그 영감을 담아 준비한 『2025 Delivery Playlist』입니다!<br><br>
 			서로의 플레이리스트를 가만히 듣다 보면, 몰랐던 서로의 취향을 발견하는 즐거움을 느끼실 수 있을 거예요.<br>
-			해주신 모든 분께 감사드리며, 올해의 마지막 마디를 기분 좋게 마무리하시길 바랍니다.<br><br>
+			참여해주신 모든 분께 감사드리며, 올해의 마지막을 행복하게 마무리하시길 바랍니다.<br><br>
 			다가오는 2026년에도 여러분의 일상이 더 건강하고 경쾌한 선율로 가득하기를 응원할게요!<br><br>
 			새로운 분의 플레이리스트는 언제나 환영입니다.<br><br>
 			아래의 'Contact' 인스타그램 아이디로 DM을 보내주세요.
@@ -194,7 +220,8 @@
             <div id="search-results"></div>
         </div>
         <section class="archive-section"><div class="track" id="lpTrack"></div></section>
-	<div id="participant-count">참가자 수: 0명</div>
+		<div id="scroll-guide">LP판을 옆으로 밀어보세요.</div>
+		<div id="participant-count">참가자 수: 0명</div>
     </main>
 
     <script>
@@ -581,7 +608,17 @@ function toggleAbout(show) {
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-page').style.opacity = '1';
             }, 3000);
+			
         };
+		// 가이드 문구 표시 로직 (3초 뒤 등장 -> 2초 노출 -> 퇴장)
+setTimeout(() => {
+    const guide = document.getElementById('scroll-guide');
+    guide.style.opacity = '1';
+    setTimeout(() => {
+        guide.style.opacity = '0';
+        setTimeout(() => { guide.remove(); }, 800); // 완전히 제거
+    }, 2000);
+}, 4500); // 스플래시가 끝난 뒤 등장하도록 시간 설정
     </script>
 </body>
 </html>
