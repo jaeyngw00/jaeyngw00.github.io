@@ -45,9 +45,9 @@
 
         /* 메인 페이지 */
         #main-page { height: 100vh; display: flex; flex-direction: column; opacity: 0; transition: opacity 1s; position: relative; }
-        .search-container { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center; width: 90%; }
-        .search-bar { background: none; border: none; border-bottom: 2px solid #fff; color: #fff; padding: 10px 0; width: 300px; font-size: 1.1rem; outline: none; text-align: center; transition: 0.3s; }
-        .search-bar:focus { width: 450px; }
+        .search-container { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center; width: 90%; }
+        .search-bar { background: none; border: none; border-bottom: 1px solid #fff; color: #fff; padding: 5px 0; width: 180px; font-size: 0.9rem; outline: none; text-align: center; transition: 0.3s; }
+        .search-bar:focus { width: 220px; }
         #search-results { position: absolute; top: 55px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.95); color: #000; display: none; max-height: 300px; overflow-y: auto; z-index: 1001; border-radius: 4px; }
         .result-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #eee; text-align: center; font-weight: 700; }
 
@@ -119,11 +119,43 @@
         font-size: 0.9rem;
     }
 }
+	/* 영수증 상세 페이지의 로고 숨기기 */
+.detail-header-logo {
+    display: none !important;
+}
+
+	/* 모바일에서 ABOUT 버튼 위치 조정 */
+@media (max-width: 768px) {
+    #about-btn {
+        top: 20px;
+        right: 20px;
+        font-size: 0.8rem;
+    }
+    #about-page {
+        padding: 80px 25px;
+    }
+    #about-page div[onclick] { /* 모바일 CLOSE 버튼 */
+        top: 25px;
+        right: 25px;
+    }
+}
     </style>
 </head>
 <body>
 
     <div id="splash-screen"><div class="splash-logo"></div></div>
+	<div id="about-btn" onclick="toggleAbout(true)" style="position: fixed; top: 40px; right: 40px; z-index: 1001; cursor: pointer; font-weight: 700; font-size: 1rem; border: 1px solid #fff; padding: 5px 15px; letter-spacing: 1px; color: #fff;">ABOUT</div>
+
+<div id="about-page" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffff; z-index:9999; color:#000000; padding:60px 40px; overflow-y: auto;">
+    <div onclick="toggleAbout(false)" style="position: absolute; top: 40px; right: 40px; cursor: pointer; font-weight: 800; font-size: 1rem; border-bottom: 2px solid #000;">CLOSE</div>
+    
+    <div style="max-width: 600px; text-align: left;">
+        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 30px; letter-spacing: -1px;">[2025 Delivery Playlist]</h1>
+        <p style="font-size: 1.1rem; line-height: 1.8; font-weight: 500;">
+            참여해 주셔서 감사합니다.
+        </p>
+    </div>
+</div>
 
     <div id="detail-page">
         <div id="detail-bg"></div>
@@ -163,7 +195,7 @@
         --------------------------------------------------------- */
         let lpData = [
             { 
-                name: "Woo Jaeyoung", 
+                name: "Woo Jae Young", 
                 tag: "우재영", 
                 age: 26, 
                 job: "취준생", 
@@ -215,16 +247,16 @@
                 ] 
             },
             { 
-                name: "Park Jung Hoon", 
+                name: "Park Jeong Hoon", 
                 tag: "박정훈", 
                 age: 26, 
                 job: "백수",
-                insta: "none", 
-                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                insta: "@d00son", 
+                img: "https://i.postimg.cc/PxZknmnY/Kakao-Talk-Photo-2025-12-26-17-00-36.jpg", 
                 playlist: [
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                    { title: "다비치 &lt;둘이서 떠나요&gt;", desc: "다비치 콘서트 보고왔던 기억이 난다. 제목도 마음에 들고, 겨울에 듣기 좋은 노래다! 마음이 편해지는 멜로디", songImg: "https://image.bugsm.co.kr/album/images/500/204681/20468120.jpg", link: "https://open.spotify.com/track/4uCMli0EyhnBbA5NzvaBLZ?si=54b8472bfe424223" },
+                    { title: "I'm Sorry &lt;CNBLUE&gt;", desc: "몇 없는 밴드아이돌 노래인데, 특유의 옛날 감성이 좋다. 신나는 멜로디", songImg: "https://image.bugsm.co.kr/album/images/500/3545/354591.jpg", link: "https://open.spotify.com/track/5j6DtDtZ84kXFrfcBMT11S?si=c6c5ccfd8ab947cf" },
+                    { title: "Michael Jackson &lt;Black or White&gt;", desc: "마이클 잭슨 노래 중 가장 좋아하는 노래다. 옛날 노래지만 녹음 퀄리티가 상당히 좋고, 음분리도가 특히 뛰어나서 꼭 이어폰 끼고 듣길 추천함!", songImg: "https://cdn-images.dzcdn.net/images/cover/93a5354699d552666448e1c87c976605/1900x1900-000000-80-0-0.jpg", link: "https://open.spotify.com/track/7EsjkelQuoUlJXEw7SeVV4?si=e5b26420f1a04f9e" }
                 ] 
             },
             { 
@@ -257,13 +289,13 @@
                 name: "Hwang Hwa Yeon", 
                 tag: "황화연", 
                 age: 26, 
-                job: "Signer",
+                job: "Tesigner",
                 insta: "@hwa.rt", 
-                img: "https://i.postimg.cc/7Yh6MPfL/IMG-8718-minzee-3.jpg", 
+                img: "https://i.postimg.cc/rs0RkZFY/Kakao-Talk-Photo-2025-12-26-17-06-22.jpg", 
                 playlist: [
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/500/41004/4100473.jpg", link: "#" },
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://image.bugsm.co.kr/album/images/350/203749/20374963.jpg", link: "#" },
-                    { title: "EMPTY &lt;EMPTY&gt;", desc: "EMPTY", songImg: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/80/49/7080491b-2f95-704f-a196-58ad8f33b268/09UMGIM22413.rgb.jpg/1200x630bb.jpg", link: "#" }
+                    { title: "justin bieber &lt;go baby&gt;", desc: "올 한해... 정말 힘든 한해였읍니다. 이거 보시는 분들은 어떠셨나요? 제가 한창 힘들었을 때 저스틴비버의 go baby를 들으면서 참 많은 위로를 받았답니당 이 노래는 가사도 참 좋지만 'go' 라는 말이 저를 앞으로 나아가게 해주더군요~~~ 한번 들어봅세용", songImg: "https://image.bugsm.co.kr/album/images/500/383277/38327761.jpg", link: "https://open.spotify.com/track/01p5urrGw5fuFCcfT7PBgc?si=82c06d7e9b0e4e45" },
+                    { title: "브로콜리너마저 &lt;졸업&gt;", desc: "저는 올 2월에 길고 길었던 대학생활을 끝냈는데욬ㅋㅋ 대학생인 저를 떠나보내며 많이 들었던 노래입니다 저는 좋은 동기들을 많이 만나서 5년동안 참으로도 즐거운 학교 생활을 했는데여 사랑하는 동기들한테 해주고 싶은 말이에요 이 미친 세상에 어디에 있더라도 행복해야 해 ~..", songImg: "https://image.bugsm.co.kr/album/images/200/2439/243980.jpg?version=20241001000007", link: "https://open.spotify.com/track/1aYCDZTG2Qs3DvMU3FjfI4?si=bc6ef97470904230" },
+                    { title: "쏜애플 &lt;은하&gt;", desc: "대망의 마지막 노래는 쏜애플의 은하 입니다... 이 명곡을 이제야 알게 됐는데요 첨 듣고 소름이 돋았습니닼ㅋㅋ 이 노래가 마음에 드시는 분들은 석류의맛 콘서트에서 부른 라이브 버전 은하도 한번 들어보세요 그냥 개지립니다. 11월 한달 내내 이 노래만 들은듯요. 노래가 주는 힘은 참 큰 것 같습니다... 과연 내년에는 어떤 노래가 제 심금을 울릴지요~~~?? 좋은 컨텐츠 만들어준 재영이 고맙고 담번에는 5개로 해주십쇼. 이거 보시는 분들 새해복 많이 받으세요 ㅎㅎ", songImg: "https://image.bugsm.co.kr/album/images/500/202639/20263999.jpg", link: "https://open.spotify.com/track/5XbBDSSKcV1qvYFEGmWST7?si=fd4f1628536944a5" }
                 ] 
             },
             { 
@@ -331,7 +363,58 @@
                     { title: "디어 &lt;12월 24일&gt;", desc: "오늘 크리스마스 이브 날짜랑 겹쳐서 넣고싶었다ㅎㅎ", songImg: "https://image.bugsm.co.kr/album/images/500/3554/355489.jpg", link: "https://open.spotify.com/album/1iMniZZNHykXZMXxJcXE9u?si=KfZ7gOuiQ3azvRDOHQmTUQ" }
                 ] 
             },
-
+            { 
+                name: "Shin Yong Beom", 
+                tag: "신용범", 
+                age: 26, 
+                job: "대학생", 
+                insta: "@creditiger", 
+                img: "https://i.postimg.cc/bJBC8hMM/1234-sin-yongbeom.jpg", 
+                playlist: [
+                    { title: "Chet Baker &lt;Estate&gt;", desc: "이탈리아어로 estate는 여름입니다. 보사노바 리듬이 있음에도 겨울과 잘 어울린다는 생각이 드는데요, 이별 후에 뜨거운 여름이 증오스럽다는 원곡 가사 내용 때문인 것 같기도 합니다. 저도 여름보다는 겨울을 좋아하는 편이라, 그냥 겨울 노래라고 생각하고 듣습니다.", songImg: "https://cdn-images.dzcdn.net/images/cover/2b345d62fec0c5e36a57ebb18718209d/1900x1900-000000-80-0-0.jpg", link: "https://open.spotify.com/track/44O5Am6J3Im77EAqkI2pZp?si=f7001bb640f2468b" },
+                    { title: "김일두 &lt;문제없어요&gt;", desc: "가사가 재밌는 곡입니다. 정말 진심 같거든요. 사랑을 위해서 락앤롤도 끊으실 수 있습니까?", songImg: "https://image.bugsm.co.kr/album/images/500/3167/316764.jpg", link: "https://open.spotify.com/track/6EEHcAp0VyqCGAQ7GrBEKa?si=bc83f95fec864882" },
+                    { title: "장기하와 얼굴들 &lt;별거 아니라고&gt;", desc: "장기하와 얼굴들의 마지막 앨범 수록곡이자 제가 가장 좋아하는 곡입니다. 걱정만 쌓이는 요즘인데, 다 별거 아니라고 생각하고 새해부터 다시 태어나겠습니다.", songImg: "https://image.bugsm.co.kr/album/images/500/202026/20202674.jpg", link: "https://open.spotify.com/track/3fXdqzuzVOeoejFJ4wsHCy?si=c7cf5d35803f416e" }
+                ] 
+            },
+            { 
+                name: "Park Da Woon", 
+                tag: "박다운", 
+                age: 26, 
+                job: "기자", 
+                insta: "@pselin__", 
+                img: "https://i.postimg.cc/SNCnWGyr/IMG-8225-bagdaun.jpg", 
+                playlist: [
+                    { title: "David Foster &lt;LOVE&gt;", desc: "80년대 빌보드계를 호령했던 데이비드 포스터의 최애곡이에요. 사랑의 풍만함과 공허함을 피아노 하나로 표현한 세련된 곡이라 생각해요. 일단 멜로디가 너무 좋아요!!", songImg: "https://images.genius.com/16552816237dad880ea8d2b5866b2933.1000x1000x1.png", link: "https://open.spotify.com/track/15sEH4pLkxoQwlOYM4HEFW?si=0d577e910d904928" },
+                    { title: "김오키 &lt;점도면에서 최대의 사랑&gt;", desc: "점도면이 어디인 지는 알 수 없어요. 실제 존재하는 장소는 아니죠. 색소폰 소리를 듣다보면 나만의 점도면이 보이는 것도 같아요.", songImg: "https://image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/125/068/81125068_1542171711935_1_600x600.JPG", link: "https://open.spotify.com/track/1aaFRaCKz00ifWiq6xYCTh?si=900accc3530f4874" },
+                    { title: "Miles davis &lt;so what&gt;", desc: "세상엔 불합리하고 부조리한 일이 참 많습니다. 우리만의 책임이 아닙니다. 그럴땐 외쳐봅시다. So what", songImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdx4d21Ljy6Q6LsiXRfDHZnQHBkguQeacHCg&s", link: "https://open.spotify.com/track/7azylXFRsebfrIoAtwfjaB?si=c8a1a7320f2c40fc" }
+                ] 
+            },
+            { 
+                name: "Mahendra", 
+                tag: "마현재", 
+                age: 23, 
+                job: "Tour Supervisor", 
+                insta: "@mahendra_adsus", 
+                img: "https://i.postimg.cc/SxZYsxQQ/IMG-7799-Mahendra-Aditya-Susilo.jpg", 
+                playlist: [
+                    { title: "The Script &lt;The man who can’t be moved&gt;", desc: "This song radiates positive energy for me to remembering about Ireland", songImg: "https://i.scdn.co/image/ab67616d0000b273f33a9f529c12f79b116eb218", link: "https://open.spotify.com/track/3nqqDo8CcCLke3ZoTgiOKf?si=e423ae883798406c" },
+                    { title: "Gaho &lt;시작(start)&gt;", desc: "This song represents my lovely korean buddies who always inspire me to be a hard-working person", songImg: "https://i.namu.wiki/i/UUOXM_nW4Z9SL8OLapgeiYCaKDOicFGYpYDC2WpTaBrZZkN1-wUUnXGiJeNRzF4xFYMW1HXrAxNVm8u0Saarmg.webp", link: "https://open.spotify.com/track/5TeDIQrpwWtLWaFfzLH0hh?si=28661c58b5124812" },
+                    { title: "Matthew Hall &lt;Home&gt;", desc: "This song reminds me about family", songImg: "https://i1.sndcdn.com/artworks-6YwFjPOFjuY0s7fC-OHOjBw-t500x500.jpg", link: "https://open.spotify.com/track/4D4rnN24jBfKC731dK3oFL?si=7dc69f30a7aa4655" }
+                ] 
+            },
+            { 
+                name: "Misel", 
+                tag: "미셀", 
+                age: 23, 
+                job: "Customer Service Shopee", 
+                insta: "@michenkk", 
+                img: "https://i.postimg.cc/hGWvhQWR/IMG-5510-Michelle-Eugene-Zalika-Mukarim.jpg", 
+                playlist: [
+                    { title: "Arctic Monkeys &lt;I wanna be yours&gt;", desc: "This song radiates positive energy for me to remembering about Ireland", songImg: "https://i.scdn.co/image/ab67616d0000b273f33a9f529c12f79b116eb218", link: "https://open.spotify.com/track/3nqqDo8CcCLke3ZoTgiOKf?si=e423ae883798406c" },
+                    { title: "Gaho &lt;시작(start)&gt;", desc: "This song represents my lovely korean buddies who always inspire me to be a hard-working person", songImg: "https://i.namu.wiki/i/UUOXM_nW4Z9SL8OLapgeiYCaKDOicFGYpYDC2WpTaBrZZkN1-wUUnXGiJeNRzF4xFYMW1HXrAxNVm8u0Saarmg.webp", link: "https://open.spotify.com/track/5TeDIQrpwWtLWaFfzLH0hh?si=28661c58b5124812" },
+                    { title: "Matthew Hall &lt;Home&gt;", desc: "This song reminds me about family", songImg: "https://i1.sndcdn.com/artworks-6YwFjPOFjuY0s7fC-OHOjBw-t500x500.jpg", link: "https://open.spotify.com/track/4D4rnN24jBfKC731dK3oFL?si=7dc69f30a7aa4655" }
+                ] 
+            },
 
             /* ➕ 여기에 새로운 데이터를 복사해서 붙여넣으세요 */
         ];
@@ -466,6 +549,21 @@ document.getElementById('participant-count').innerText = `참가자 수: ${lpDat
         });
 
         window.addEventListener('resize', update);
+
+	/* ABOUT 페이지 토글 함수 */
+function toggleAbout(show) {
+    const aboutPage = document.getElementById('about-page');
+    if (show) {
+        aboutPage.style.display = 'block';
+        // 열릴 때 살짝 페이드인 효과 (선택사항)
+        aboutPage.style.opacity = 0;
+        setTimeout(() => { aboutPage.style.transition = 'opacity 0.4s'; aboutPage.style.opacity = 1; }, 10);
+    } else {
+        aboutPage.style.opacity = 0;
+        setTimeout(() => { aboutPage.style.display = 'none'; }, 400);
+    }
+}
+
         window.onload = () => {
             init();
             setTimeout(() => {
